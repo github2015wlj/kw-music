@@ -1,0 +1,6 @@
+jsonp.js 对jsonp进行封装
+recommend.js 对推荐音乐获取数据封装方法
+config.js 公共参数
+知识点：
+keep-alive
+如果有计数器，在生命周期结束后，要清除掉计时器
