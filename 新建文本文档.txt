@@ -1,7 +1,10 @@
-�����500����ʵ�ʲ��Ƿ������˵Ĵ���
-headers:����ͷ�����host(c.y.qq.com) ����Դrefener��y.qq.com ����ƹ��ӿ�����   
-����취��
-��˽ӿڴ���
-dev-serve.js
+清单：
+src/base/scroll
 
-v-html���Խ����������������������  
+注意：scroll使用
+
+1.初始化时期与refresh时期，父元素与子元素的高度之差去做一个计算，算到它可以滚动到的位置，所以要保证
+
+dom一定要渲染完
+
+2.有数据变化的场景，如列表，一定要让better-scroll，重新refresh.只需要将数据传递过去，通过watch监听数据变化，重新做计算。
