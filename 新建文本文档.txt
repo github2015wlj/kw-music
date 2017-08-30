@@ -1,6 +1,7 @@
-jsonp.js 对jsonp进行封装
-recommend.js 对推荐音乐获取数据封装方法
-config.js 公共参数
-知识点：
-keep-alive
-如果有计数器，在生命周期结束后，要清除掉计时器
+如果报500错误，实际不是服务器端的错误
+headers:请求头中如果host(c.y.qq.com) 请求源refener是y.qq.com 如何绕过接口限制   
+解决办法：
+后端接口代理
+dev-serve.js
+
+v-html可以解析返回来的特殊编码数据  

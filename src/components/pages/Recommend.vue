@@ -1,6 +1,6 @@
 <template>
   <div class="recommend" ref="recommend">
-    <div>
+    <div class="recommend-content">
       <div v-if="sliderList.length" :sliderH="sliderList">
         <slider>
           <ul class="sw-slides">
@@ -30,6 +30,20 @@
                   <p>华语新歌推荐</p>
               </div>
           </div>
+          <div class="strip"></div>
+          <div class="program">
+              <h3 class="clearfix">全部歌单</h3>
+              <div class="swiper-container">
+                  <div class="swiper-wrapper">
+                      <div class="swiper-slide" v-for="item in discList">
+                          <a href="javascript:;">
+                              <img  :src="item.imgurl" />
+                              <p class="programtitle" v-html="item.dissname"></p>
+                          </a>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
     </div>
   </div>
@@ -37,13 +51,14 @@
 
 <script>
   import Slider from '../../base/slider/slider.vue'
-  import { getRecommend } from '../../api/recommend.js'
+  import { getRecommend,getDiscList } from '../../api/recommend.js'
   import { ERR_OK } from '../../api/config.js'
   export default {
     name: 'hello',
     data() {
       return {
-        sliderList: []
+        sliderList: [],
+        discList: []
       }
     },
     components: {
@@ -54,13 +69,21 @@
     },
     created() {
       this._getSwiperData()
+      this._getDiscList()
     },
     methods: {
       _getSwiperData: function () {
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
-            console.log(res.data.slider);
             this.sliderList = res.data.slider;
+          }
+        })
+      },
+      //获取歌单
+      _getDiscList() {
+        getDiscList().then((res) => {
+          if (res.code === ERR_OK) {
+            this.discList = res.data.list
           }
         })
       }
@@ -141,5 +164,54 @@
     text-align: center;
     height: .6rem;
     line-height: .6rem;
+}
+/*歌单推荐*/
+.program, .mmhost, .hotmv {
+    padding: 0 .2rem;
+    color: #333;
+}
+.swiper-container {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+.swiper-slide, .swiper-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+}
+.swiper-slide {
+    -webkit-flex-shrink: 0;
+    -ms-flex: 0 0 auto;
+    flex-shrink: 0;
+    color: #fff;
+    float: left;
+    width:30%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+.swiper-slide:nth-child(3n+0){
+  margin-right:0;
+}
+.swiper-slide a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.swiper-slide p {
+    width: 100%;
+    color: #333;
+    text-align: left;
+    font-size: .24rem;
+    line-height: .32rem;
+    word-break:break-all;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    padding-top: .06rem;
 }
 </style>
