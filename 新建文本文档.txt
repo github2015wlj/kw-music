@@ -8,3 +8,13 @@ src/base/scroll
 dom一定要渲染完
 
 2.有数据变化的场景，如列表，一定要让better-scroll，重新refresh.只需要将数据传递过去，通过watch监听数据变化，重新做计算。
+
+3.class="needsclick"    betterscroll与fastclick冲突
+this.scroll = new BScroll(this.$refs.wrapper, {
+          probeType: this.probeType,
+          click: this.click
+        })
+ <img class="needsclick" :src="item.picUrl" @load="loadImage">
+ 
+ 
+ 
