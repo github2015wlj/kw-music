@@ -1,7 +1,7 @@
 <template>
     <div class="recommend" ref="recommend">
         <!--scroll滚动的父容器-->
-        <Scroll class="recommend-content" :data="discList">
+        <Scroll class="recommend-content" :data="discList" ref="scroll">
             <!--scroll第一个滚动的子容器-->
             <div>
                 <div v-if="sliderList.length" :sliderH="sliderList">
@@ -17,24 +17,6 @@
                 </div>
                 <div class="strip"></div>
                 <div class="main">
-                    <div class="newsong">
-                        <h3 class="clearfix">每日新歌</h3>
-                        <div class="songtuijian">
-                            <a class="songmsg" href="/newh5/playlist/content?pid=1082685104">
-                                <i class="newtip"></i>
-                                <div class="songmsgpic">
-                                    <img data-src="http://img1.kwcdn.kuwo.cn/star/upload/10/10/1466668022746_.jpg" src="http://img1.kwcdn.kuwo.cn/star/upload/10/10/1466668022746_.jpg">
-                                </div>
-                                <div class="other clearfix">
-                                    <span class="listen fl">
-                                        <span class="listennum">7225</span>
-                                    </span>
-                                    <span class="playbtn fr"></span>
-                                </div>
-                            </a>
-                            <p>华语新歌推荐</p>
-                        </div>
-                    </div>
                     <div class="strip"></div>
                     <div class="program">
                         <h3 class="clearfix">全部歌单</h3>
@@ -42,11 +24,14 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide" v-for="item in discList">
                                     <a href="javascript:;">
-                                        <img :src="item.imgurl" />
+                                        <img v-lazy="item.imgurl" />
                                         <p class="programtitle" v-html="item.dissname"></p>
                                     </a>
                                 </div>
                             </div>
+                        </div>
+                        <div class="loading-container" v-show="!discList.length">
+                            <loading></loading>
                         </div>
                     </div>
                 </div>
@@ -56,8 +41,9 @@
 </template>
 
 <script>
-import Scroll from '../../base/scroll/scroll' 
+import Scroll from '../../base/scroll/scroll'
 import Slider from '../../base/slider/slider.vue'
+import Loading from '../../base/loading/loading'
 import { getRecommend, getDiscList } from '../../api/recommend.js'
 import { ERR_OK } from '../../api/config.js'
 export default {
@@ -70,14 +56,17 @@ export default {
     },
     components: {
         Slider,
-        Scroll
+        Scroll,
+        Loading
     },
     mounted() {
 
     },
     created() {
         this._getSwiperData()
-        this._getDiscList()
+        setTimeout(()=>{
+             this._getDiscList()
+        },1000)  
     },
     methods: {
         _getSwiperData: function() {
@@ -111,8 +100,12 @@ export default {
 <style scoped>
 .recommend {
     margin-top: 20%;
+    height: 100%;
+    overflow: hidden;
 }
-
+.program{
+    position: relative;
+}
 .newsong,
 .gedan,
 .program,
@@ -197,6 +190,7 @@ export default {
 }
 
 
+
 /*歌单推荐*/
 
 .program,
@@ -255,5 +249,16 @@ export default {
     -webkit-box-orient: vertical;
     overflow: hidden;
     padding-top: .06rem;
+}
+
+
+/*loading*/
+
+.loading-container {
+    position: relative ;
+    width: 100% ;
+    height: 5rem;
+    text-align: center;
+    padding-top: 50%;
 }
 </style>

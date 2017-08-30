@@ -5,8 +5,13 @@ import '@/assets/css/base.css'
 import $ from './assets/js/jquery-vendor'
 import axios from 'axios'
 import originJsonp from 'jsonp'
+import VueLazyload from 'vue-lazyload'
 Vue.prototype.$http = axios;//将axios这个对象clone到Vue的$http这个属性上,以后我们就可以在其他组件里使用axios来进行 异步请求了
 Vue.config.productionTip = false
+
+Vue.use(VueLazyload, {
+  loading: require('./common/image/default.jpg')
+})
 
 /* eslint-disable no-new */
 new Vue({
